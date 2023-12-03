@@ -42,33 +42,21 @@ class PartNo:
         return (Gear(row, col) for row, col, char in self.surrounding_chars if is_gear(char))
 
 
-@dataclass
-class GearSet:
-    gear: Gear
-    parts: list[int]
-
-    @property
-    def ratio(self):
-        return self.parts[0] * self.parts[1]
-
-
-def parse_parts(grid: list[list[str]]) -> list[PartNo]:
+def parse_parts(grid: list[list[str]]) -> Iterator[PartNo]:
     pattern = re.compile(r"(\d+)")
     for row, line in enumerate(grid):
         for match in pattern.finditer("".join(line)):
             yield PartNo(grid, row, match.start(), match.end() - 1, int(match.group(1)))
 
-def match_gear_sets(parts: list[PartNo]) -> list[GearSet]:
+def match_gear_sets(parts: list[PartNo]) -> list[int]:
     gear_sets = defaultdict(list)
     for part in parts:
         for gear in part.gears:
             gear_sets[gear].append(part.val)
     
-    return [GearSet(gear, parts) for gear, parts in gear_sets.items() if len(parts) == 2]
+    return [parts[0] * parts[1] for parts in gear_sets.values() if len(parts) == 2]
 
             
 with open("input.txt") as f:
     grid = [list(line.strip()) for line in f.readlines()]
-    parts = [part for part in parse_parts(grid)]
-
-    print(sum([gear_set.ratio for gear_set in match_gear_sets(parts)]))
+    print(sum(match_gear_sets(parse_parts(grid))))

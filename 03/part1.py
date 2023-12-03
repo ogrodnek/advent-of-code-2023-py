@@ -2,10 +2,10 @@ import re
 from dataclasses import dataclass
 from typing import Iterator
 
-symbols_chars= {'%', '@', '=', '&', '/', '*', '-', '$', '+', '#'}
+symbol_chars= {'%', '@', '=', '&', '/', '*', '-', '$', '+', '#'}
 
 def is_symbol(char: str) -> bool:
-    return char in symbols_chars
+    return char in symbol_chars
 
 
 @dataclass
