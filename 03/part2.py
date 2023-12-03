@@ -1,6 +1,8 @@
 import re
 from dataclasses import dataclass
 from typing import Iterator
+from collections import defaultdict
+
 
 def is_gear(char: str) -> bool:
     return "*" == char
@@ -57,14 +59,12 @@ def parse_parts(grid: list[list[str]]) -> list[PartNo]:
             yield PartNo(grid, row, match.start(), match.end() - 1, int(match.group(1)))
 
 def match_gear_sets(parts: list[PartNo]) -> list[GearSet]:
-    gear_sets = {}
+    gear_sets = defaultdict(list)
     for part in parts:
         for gear in part.gears:
-            if gear not in gear_sets:
-                gear_sets[gear] = GearSet(gear, [])
-            gear_sets[gear].parts.append(part.val)
+            gear_sets[gear].append(part.val)
     
-    return [gear_set for gear_set in gear_sets.values() if len(gear_set.parts) > 1]
+    return [GearSet(gear, parts) for gear, parts in gear_sets.items() if len(parts) == 2]
 
             
 with open("input.txt") as f:

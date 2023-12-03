@@ -46,5 +46,4 @@ def parse_parts(grid: list[list[str]]) -> Iterator[PartNo]:
             
 with open("input.txt") as f:
     grid = [list(line.strip()) for line in f.readlines()]
-    parts = [part for part in parse_parts(grid) if part.is_valid]
-    print(sum([part.val for part in parts]))
+    print(sum([part.val for part in parse_parts(grid) if part.is_valid]))
