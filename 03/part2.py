@@ -48,7 +48,7 @@ def parse_parts(grid: list[list[str]]) -> Iterator[PartNo]:
         for match in pattern.finditer("".join(line)):
             yield PartNo(grid, row, match.start(), match.end() - 1, int(match.group(1)))
 
-def match_gear_sets(parts: list[PartNo]) -> list[int]:
+def match_gear_sets(parts: Iterator[PartNo]) -> list[int]:
     gear_sets = defaultdict(list)
     for part in parts:
         for gear in part.gears:

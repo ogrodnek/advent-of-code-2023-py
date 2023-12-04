@@ -35,7 +35,7 @@ class PartNo:
         
     @property
     def is_valid(self):
-        return any([is_symbol(char) for char in self.surrounding_chars])
+        return any((is_symbol(char) for char in self.surrounding_chars))
 
 
 def parse_parts(grid: list[list[str]]) -> Iterator[PartNo]:
