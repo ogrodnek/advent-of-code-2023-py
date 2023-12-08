@@ -23,7 +23,6 @@ def hand_type(cards: list[str]) -> HandType:
     jokers = len(cards) - len(non_jokers)
 
     if jokers == 5:
-        print("Five Jokers")
         return HandType.FiveOfAKind
     
     card_counts = [v[1] for v in Counter(non_jokers).most_common(2)]
